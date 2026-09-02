@@ -1,0 +1,40 @@
+{
+  "name": "auditable-deep-research-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise-grade Auditable Deep Research Agent deployed on Cloudflare with OpenAI SDK, Vectorize, and D1",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "typecheck": "tsc --noEmit && cd frontend && npm run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "npm run build:frontend && wrangler deploy",
+    "d1:migrate:local": "wrangler d1 migrations apply research-agent-db --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply research-agent-db --remote"
+  },
+  "keywords": [
+    "deep-research",
+    "cloudflare-workers",
+    "vectorize",
+    "d1",
+    "openai",
+    "langchain",
+    "auditability",
+    "rag"
+  ],
+  "author": "Auditable Agent Team",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.6.14",
+    "openai": "^4.85.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7",
+    "wrangler": "^3.111.0"
+  }
+}

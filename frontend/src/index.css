@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#0b0f19] text-slate-200;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.7);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.9);
+}
+
+/* Citation hover styling */
+.citation-pill {
+  @apply inline-flex items-center px-1.5 py-0.5 mx-0.5 text-xs font-mono font-medium rounded bg-emerald-950/70 text-emerald-400 border border-emerald-700/50 hover:bg-emerald-800/60 hover:text-emerald-200 transition cursor-pointer;
+}
