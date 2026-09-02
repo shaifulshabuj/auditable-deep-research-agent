@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Workers
+name: CI & Cloudflare Deployment Pipeline
 
 on:
   push:
@@ -9,7 +9,8 @@ on:
       - main
 
 jobs:
-  validate-and-deploy:
+  ci-validate:
+    name: Test & Build Validation (CI)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -30,14 +31,56 @@ jobs:
       - name: Typecheck Backend & Frontend
         run: npm run typecheck
 
-      - name: Run Test Suite
+      - name: Run Automated Test Suite
         run: npm run test
 
       - name: Build Frontend Static Assets
         run: npm run build:frontend
 
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+          retention-days: 7
+
+  cd-deploy:
+    name: Deploy to Cloudflare Edge (CD)
+    needs: ci-validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Monorepo Dependencies
+        run: npm ci
+
+      - name: Download Built Frontend Assets
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+
+      - name: Check Cloudflare Deployment Credentials
+        id: check-token
+        run: |
+          if [ -n "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "has_token=true" >> $GITHUB_OUTPUT
+            echo "Cloudflare API token detected in repository secrets."
+          else
+            echo "has_token=false" >> $GITHUB_OUTPUT
+            echo "::warning title=Missing Cloudflare API Token::CLOUDFLARE_API_TOKEN secret is not set in GitHub repository settings. To enable automated edge deployment, add CLOUDFLARE_API_TOKEN in GitHub Settings -> Secrets -> Actions."
+          fi
+
       - name: Deploy to Cloudflare Workers
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: steps.check-token.outputs.has_token == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
