@@ -6,6 +6,12 @@ Deployed globally on **Cloudflare Workers (Edge)** with **Cloudflare Vectorize v
 
 ---
 
+<p align="center">
+  <img src="docs/images/architecture_hero.svg" alt="The Auditable Deep Research Agent Architecture & Provenance Matrix" width="100%" />
+</p>
+
+---
+
 ## 🏛️ Architectural Overview
 
 Enterprise agents cannot operate as "black boxes". The **Auditable Deep Research Agent** enforces complete traceability from initial prompt decomposition down to byte-level source vector chunks and claim-level verification judges.
@@ -62,42 +68,44 @@ flowchart TD
 
 ```
 .
+├── docs/
+│   └── images/architecture_hero.svg # Architecture and dashboard visual
 ├── migrations/
-│   └── 0001_init_schema.sql       # D1 SQLite Schema (sessions, plans, sources, chunks, claims, logs)
+│   └── 0001_init_schema.sql         # D1 SQLite Schema (sessions, plans, sources, chunks, claims, logs)
 ├── src/
-│   ├── index.ts                   # Cloudflare Worker entry point
-│   ├── router.ts                  # Hono REST API & Server-Sent Events (SSE) router
-│   ├── types.ts                   # TypeScript domain & Cloudflare bindings interfaces
+│   ├── index.ts                     # Cloudflare Worker entry point
+│   ├── router.ts                    # Hono REST API & Server-Sent Events (SSE) router
+│   ├── types.ts                     # TypeScript domain & Cloudflare bindings interfaces
 │   ├── agent/
-│   │   ├── schemas.ts             # Zod structured output schemas
-│   │   ├── planner.ts             # Planner node (Query decomposition)
-│   │   ├── researcher.ts          # Search worker node (Web search & Vectorize indexing)
-│   │   ├── synthesizer.ts         # Synthesizer node (Grounded report & claim extraction)
-│   │   ├── auditor.ts             # Claim-level verification judge node
-│   │   └── orchestrator.ts        # Agent pipeline state machine & SSE emitter
+│   │   ├── schemas.ts               # Zod structured output schemas
+│   │   ├── planner.ts               # Planner node (Query decomposition)
+│   │   ├── researcher.ts            # Search worker node (Web search & Vectorize indexing)
+│   │   ├── synthesizer.ts           # Synthesizer node (Grounded report & claim extraction)
+│   │   ├── auditor.ts               # Claim-level verification judge node
+│   │   └── orchestrator.ts          # Agent pipeline state machine & SSE emitter
 │   └── services/
-│       ├── embeddings.ts          # Cloudflare Workers AI embeddings (@cf/baai/bge-base-en-v1.5)
-│       ├── vectorize.ts           # Vectorize v2 client & cosine distance search
-│       ├── d1.ts                  # D1 SQLite database operations & audit logger
-│       ├── search.ts              # Tavily web search integration & chunking engine
-│       └── openai.ts              # OpenAI SDK structured outputs & keyless fallback
+│       ├── embeddings.ts            # Cloudflare Workers AI embeddings (@cf/baai/bge-base-en-v1.5)
+│       ├── vectorize.ts             # Vectorize v2 client & cosine distance search
+│       ├── d1.ts                    # D1 SQLite database operations & audit logger
+│       ├── search.ts                # Tavily web search integration & chunking engine
+│       └── openai.ts                # OpenAI SDK structured outputs & keyless fallback
 ├── frontend/
 │   ├── src/
-│   │   ├── components/            # Header, ReportViewer, CitationBadge, ClaimTable, AuditViewer
-│   │   ├── hooks/                 # useResearchStream SSE hook
-│   │   ├── pages/                 # HomePage, ResearchPage, SessionsPage
-│   │   ├── App.tsx & main.tsx     # React 19 router & entry
-│   │   └── index.css              # TailwindCSS styling
-│   └── vite.config.ts             # Vite configuration with /api proxy
+│   │   ├── components/              # Header, ReportViewer, CitationBadge, ClaimTable, AuditViewer
+│   │   ├── hooks/                   # useResearchStream SSE hook
+│   │   ├── pages/                   # HomePage, ResearchPage, SessionsPage
+│   │   ├── App.tsx & main.tsx       # React 19 router & entry
+│   │   └── index.css                # TailwindCSS styling
+│   └── vite.config.ts               # Vite configuration with /api proxy
 ├── test/
-│   ├── schemas.test.ts            # Zod contracts test
-│   ├── chunking.test.ts           # Document chunking & offset validation
-│   ├── vectorize.test.ts          # Cosine search & vector metadata test
-│   └── agent_pipeline.test.ts     # End-to-end multi-step research pipeline test
+│   ├── schemas.test.ts              # Zod contracts test
+│   ├── chunking.test.ts             # Document chunking & offset validation
+│   ├── vectorize.test.ts            # Cosine search & vector metadata test
+│   └── agent_pipeline.test.ts       # End-to-end multi-step research pipeline test
 ├── .github/workflows/
-│   └── deploy.yml                 # GitHub Actions CI/CD to Cloudflare
-├── wrangler.jsonc                 # Cloudflare Worker, D1, Vectorize & Assets config
-└── package.json                   # Root monorepo configuration
+│   └── deploy.yml                   # GitHub Actions CI/CD to Cloudflare
+├── wrangler.jsonc                   # Cloudflare Worker, D1, Vectorize & Assets config
+└── package.json                     # Root monorepo configuration
 ```
 
 ---
@@ -164,16 +172,6 @@ npx wrangler secret put TAVILY_API_KEY
 ```bash
 npm run deploy
 ```
-
----
-
-## 🔒 GitHub Actions CI/CD Setup
-
-To enable automated zero-downtime deployment on push to `main`:
-1. Add the following repository secrets in GitHub (`Settings` → `Secrets and variables` → `Actions`):
-   - `CLOUDFLARE_API_TOKEN`: Cloudflare API Token with Workers, D1, and Vectorize permissions.
-   - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare Account ID.
-2. Push to `main` branch. GitHub Actions will run type checking, execute the test suite, build the frontend, and deploy to Cloudflare edge.
 
 ---
 

@@ -58,6 +58,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      {/* Hero Section */}
       <div className="text-center space-y-4">
         <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
@@ -73,6 +74,7 @@ export const HomePage: React.FC = () => {
         </p>
       </div>
 
+      {/* Main Research Input Box */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4">
         <div className="relative">
           <textarea
@@ -112,6 +114,16 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
+      {/* Architecture Visual Showcase */}
+      <div className="rounded-3xl overflow-hidden border border-slate-800/90 shadow-2xl bg-slate-950/60 p-2">
+        <img
+          src="/images/architecture_hero.svg"
+          alt="The Auditable Deep Research Agent Architecture & Provenance Matrix"
+          className="w-full h-auto rounded-2xl"
+        />
+      </div>
+
+      {/* Suggested Enterprise Research Prompts */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
@@ -146,6 +158,7 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
+      {/* Enterprise Architecture Pillars */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-slate-800/80 text-left">
         <div className="bg-slate-900/40 p-5 rounded-2xl border border-slate-800/80 space-y-2">
           <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">

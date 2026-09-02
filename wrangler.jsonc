@@ -12,14 +12,14 @@
   "vectorize": [
     {
       "binding": "VECTORIZE",
-      "index_name": "research-embeddings-idx"
+      "index_name": "auditable-research-vectors"
     }
   ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "research-agent-db",
-      "database_id": "local-research-db",
+      "database_name": "auditable-research-db",
+      "database_id": "7712a854-7ff4-40f7-aa13-b45db350235e",
       "migrations_dir": "migrations"
     }
   ],
