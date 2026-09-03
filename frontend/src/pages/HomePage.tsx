@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, ArrowRight, Database, Cpu, Lock, CheckCircle } from 'lucide-react';
+import { ArchitectureVisual } from '../components/ArchitectureVisual';
 
 const SUGGESTED_QUERIES = [
   {
@@ -114,14 +115,8 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Architecture Visual Showcase */}
-      <div className="rounded-3xl overflow-hidden border border-slate-800/90 shadow-2xl bg-slate-950/60 p-2">
-        <img
-          src="/images/architecture_hero.svg"
-          alt="The Auditable Deep Research Agent Architecture & Provenance Matrix"
-          className="w-full h-auto rounded-2xl"
-        />
-      </div>
+      {/* Architecture Visual Showcase (Native Responsive Component) */}
+      <ArchitectureVisual />
 
       {/* Suggested Enterprise Research Prompts */}
       <div className="space-y-4">

@@ -6,9 +6,7 @@ Deployed globally on **Cloudflare Workers (Edge)** with **Cloudflare Vectorize v
 
 ---
 
-<p align="center">
-  <img src="docs/images/architecture_hero.svg" alt="The Auditable Deep Research Agent Architecture & Provenance Matrix" width="100%" />
-</p>
+![The Auditable Deep Research Agent Architecture & Provenance Matrix](docs/images/architecture_hero.png)
 
 ---
 
@@ -69,7 +67,9 @@ flowchart TD
 ```
 .
 ├── docs/
-│   └── images/architecture_hero.svg # Architecture and dashboard visual
+│   └── images/
+│       ├── architecture_hero.png    # Primary PNG banner for GitHub rendering
+│       └── architecture_hero.svg    # Scalable vector source asset
 ├── migrations/
 │   └── 0001_init_schema.sql         # D1 SQLite Schema (sessions, plans, sources, chunks, claims, logs)
 ├── src/
@@ -91,7 +91,7 @@ flowchart TD
 │       └── openai.ts                # OpenAI SDK structured outputs & keyless fallback
 ├── frontend/
 │   ├── src/
-│   │   ├── components/              # Header, ReportViewer, CitationBadge, ClaimTable, AuditViewer
+│   │   ├── components/              # Header, ArchitectureVisual, ReportViewer, CitationBadge, ClaimTable
 │   │   ├── hooks/                   # useResearchStream SSE hook
 │   │   ├── pages/                   # HomePage, ResearchPage, SessionsPage
 │   │   ├── App.tsx & main.tsx       # React 19 router & entry
@@ -154,16 +154,15 @@ Visit `http://localhost:5173` to launch deep research inquiries.
 ### 1. Initialize Cloudflare Resources
 ```bash
 # 1. Create Cloudflare D1 Database
-npx wrangler d1 create research-agent-db
-# Copy the returned database_id into wrangler.jsonc
+npx wrangler d1 create auditable-research-db
 
 # 2. Create Cloudflare Vectorize Index (768-dim, cosine metric)
-npx wrangler vectorize create research-embeddings-idx --dimensions=768 --metric=cosine
+npx wrangler vectorize create auditable-research-vectors --dimensions=768 --metric=cosine
 
 # 3. Apply Remote Migrations
-npx wrangler d1 migrations apply research-agent-db --remote
+npx wrangler d1 migrations apply auditable-research-db --remote
 
-# 4. Set Environment Secrets (Optional but recommended for live web search & OpenAI)
+# 4. Set Environment Secrets (Optional for live web search & OpenAI)
 npx wrangler secret put OPENAI_API_KEY
 npx wrangler secret put TAVILY_API_KEY
 ```
