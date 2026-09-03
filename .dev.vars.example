@@ -1,0 +1,15 @@
+# =============================================================================
+# Auditable Deep Research Agent - Local Environment Secrets
+# Copy this file to .dev.vars for local development with wrangler
+# =============================================================================
+
+# Optional: OpenAI API Key for GPT-4o / reasoning models structured output
+# If omitted, the agent uses realistic simulated fallback responses for demo & tests
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Optional: Tavily API Key for live web search
+# If omitted, the agent uses domain-aware simulated search results
+TAVILY_API_KEY=your_tavily_api_key_here
+
+# Environment Flag
+ENVIRONMENT=development
